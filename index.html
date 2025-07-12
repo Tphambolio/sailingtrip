@@ -7,19 +7,23 @@
     
     <!-- Leaflet CSS for styling the map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Add leaflet-arrowheads plugin -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-arrowheads/1.0.0/leaflet-arrowheads.css" />
     <style>
-        #map { height: 400px; width: 100%; }
+        #map { height: 600px; width: 100%; }
     </style>
 </head>
 <body>
 
-<h1>Simple Mediterranean Sailing Itinerary Map</h1>
+<h1>Simple Mediterranean Sailing Itinerary Map with Directional Arrows</h1>
 
 <!-- Map container -->
 <div id="map"></div>
 
 <!-- Leaflet JavaScript for interactive map functionality -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-arrowheads/1.0.0/leaflet-arrowheads.js"></script>
+
 <script>
     // Initialize the map centered on a location (example: Athens)
     var map = L.map('map').setView([37.9838, 23.7275], 6);  // Center on Athens
@@ -62,6 +66,29 @@
             .addTo(map)
             .bindPopup("<b>" + stop.name + "</b><br>" + stop.info);
     });
+
+    // Define the maritime route with waypoints to avoid land
+    var route = [
+        [45.4408, 12.3155],  // Venice
+        [44.9605, 13.4157],  // Near Rovinj (over water)
+        [43.5081, 16.4402],  // Split
+        [42.6507, 18.0944],  // Dubrovnik
+        [42.4611, 18.7804],  // Kotor
+        [39.6243, 19.9208],  // Corfu
+        [38.8333, 20.1000],  // Ionian Islands
+        [37.4036, 22.9080],  // Peloponnese
+        [37.5651, 22.8090]   // Nafplio
+    ];
+
+    // Create the polyline and add arrowheads to the route
+    L.polyline(route, { color: 'blue', weight: 5, opacity: 0.7 })
+        .addTo(map)
+        .arrowheads({
+            size: '20px',
+            frequency: 'endonly',  // Place arrow only at the end of each polyline segment
+            fill: 'green',         // Set arrow color
+            opacity: 1
+        });
 </script>
 
 </body>
