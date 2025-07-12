@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Sailing Itinerary Map with Seasonal Colors</title>
+    <title>Simple Sailing Itinerary Map with Numbered Stops and Duration</title>
     
     <!-- Leaflet CSS for styling the map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 600px; width: 100%; }
+        .custom-icon {
+            background-color: white;
+            border-radius: 50%;
+            padding: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 20px;
+        }
     </style>
 </head>
 <body>
 
-<h1>Simple Mediterranean Sailing Itinerary Map with Seasonal Color Coding</h1>
+<h1>Simple Mediterranean Sailing Itinerary Map with Numbered Stops</h1>
 
 <!-- Map container -->
 <div id="map"></div>
@@ -30,31 +39,31 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Array of stops with coordinates, names, links, and assigned seasons
+    // Array of stops with coordinates, names, links, assigned seasons, and duration of stay
     var stops = [
-        {name: "Venice", lat: 45.4408, lon: 12.3155, info: "UNESCO Venice | <a href='https://www.marinasantelena.com/' target='_blank'>Marina Sant'Elena</a>", season: "summer"},
-        {name: "Rovinj", lat: 45.0812, lon: 13.6385, info: "UNESCO Rovinj | <a href='https://aci-marinas.com/marina/aci-rovinj/' target='_blank'>ACI Marina Rovinj</a>", season: "summer"},
-        {name: "Split", lat: 43.5081, lon: 16.4402, info: "UNESCO Split | <a href='https://aci-marinas.com/marina/aci-split/' target='_blank'>ACI Marina Split</a>", season: "summer"},
-        {name: "Dubrovnik", lat: 42.6507, lon: 18.0944, info: "UNESCO Dubrovnik | <a href='https://aci-marinas.com/marina/aci-dubrovnik/' target='_blank'>ACI Marina Dubrovnik</a>", season: "summer"},
-        {name: "Kotor", lat: 42.4611, lon: 18.7804, info: "UNESCO Kotor | <a href='https://www.portofkotor.com/en/marina-kotor/' target='_blank'>Port of Kotor Marina</a>", season: "fall"},
-        {name: "Corfu", lat: 39.6243, lon: 19.9208, info: "UNESCO Corfu | <a href='https://www.d-marin.com/en/marinas/gouvia/' target='_blank'>Gouvia Marina</a>", season: "fall"},
-        {name: "Ionian Islands", lat: 38.8333, lon: 20.1000, info: "Ionian Islands | <a href='https://www.d-marin.com/en/marinas/lefkas/' target='_blank'>Lefkas Marina</a>", season: "fall"},
-        {name: "Peloponnese", lat: 37.4036, lon: 22.9080, info: "Peloponnese | <a href='https://www.ksmarin.com/' target='_blank'>Kalamata Marina</a>", season: "winter"},
-        {name: "Nafplio", lat: 37.5651, lon: 22.8090, info: "Nafplio | <a href='https://www.nafpoli-marina.gr/' target='_blank'>Nafplio Marina</a>", season: "winter"},
-        {name: "Athens", lat: 37.9838, lon: 23.7275, info: "Athens | <a href='https://www.d-marin.com/en/marinas/zea/' target='_blank'>Zea Marina</a>", season: "winter"},
-        {name: "Santorini", lat: 36.3932, lon: 25.4615, info: "UNESCO Santorini | <a href='https://www.santorini-view.com/ports-airport/vlychada-marina/' target='_blank'>Vlychada Marina</a>", season: "spring"},
-        {name: "Mykonos", lat: 37.4467, lon: 25.3289, info: "UNESCO Mykonos | <a href='https://www.mykonosport.com/' target='_blank'>Mykonos New Port Marina</a>", season: "spring"},
-        {name: "Chios", lat: 38.3700, lon: 26.1350, info: "Chios | <a href='https://www.chiosmarina.gr/' target='_blank'>Chios Marina</a>", season: "spring"},
-        {name: "Lesbos", lat: 39.1108, lon: 26.5501, info: "UNESCO Lesbos | <a href='https://www.mytilenamarina.gr/' target='_blank'>Mytilene Marina</a>", season: "spring"},
-        {name: "Kusadasi", lat: 37.8693, lon: 27.2566, info: "UNESCO Ephesus | <a href='https://www.kusadasimarina.com/' target='_blank'>Kusadasi Marina</a>", season: "spring"},
-        {name: "Marmaris", lat: 36.8765, lon: 28.2857, info: "Marmaris | <a href='https://www.marinamarmaris.com/' target='_blank'>Marmaris Marina</a>", season: "spring"},
-        {name: "Fethiye", lat: 36.6340, lon: 29.1071, info: "Fethiye | <a href='https://www.fethiyemarina.com/' target='_blank'>Fethiye Marina</a>", season: "spring"},
-        {name: "Gocek", lat: 36.7486, lon: 28.9190, info: "Gocek | <a href='https://www.gocekmarina.com/' target='_blank'>Gocek Marina</a>", season: "spring"},
-        {name: "Rhodes", lat: 36.4349, lon: 28.2176, info: "UNESCO Rhodes | <a href='https://www.rhodesport.com/' target='_blank'>Rhodes Marina</a>", season: "spring"},
-        {name: "Kastellorizo", lat: 36.1422, lon: 29.5844, info: "Kastellorizo | <a href='https://www.kastellorizomarina.gr/' target='_blank'>Kastellorizo Marina</a>", season: "spring"},
-        {name: "Cyprus (Paphos)", lat: 34.7757, lon: 32.4244, info: "UNESCO Paphos | <a href='https://www.paphosmarina.com/' target='_blank'>Paphos Marina</a>", season: "spring"},
-        {name: "Limassol", lat: 34.7071, lon: 33.0248, info: "Limassol | <a href='https://www.limassolmarina.com/' target='_blank'>Limassol Marina</a>", season: "spring"},
-        {name: "Larnaca", lat: 34.9208, lon: 33.6324, info: "Larnaca | <a href='https://www.larnacamarina.com/' target='_blank'>Larnaca Marina</a>", season: "spring"}
+        {name: "Venice", lat: 45.4408, lon: 12.3155, info: "UNESCO Venice | <a href='https://www.marinasantelena.com/' target='_blank'>Marina Sant'Elena</a>", season: "summer", duration: "7 days"},
+        {name: "Rovinj", lat: 45.0812, lon: 13.6385, info: "UNESCO Rovinj | <a href='https://aci-marinas.com/marina/aci-rovinj/' target='_blank'>ACI Marina Rovinj</a>", season: "summer", duration: "5 days"},
+        {name: "Split", lat: 43.5081, lon: 16.4402, info: "UNESCO Split | <a href='https://aci-marinas.com/marina/aci-split/' target='_blank'>ACI Marina Split</a>", season: "summer", duration: "5 days"},
+        {name: "Dubrovnik", lat: 42.6507, lon: 18.0944, info: "UNESCO Dubrovnik | <a href='https://aci-marinas.com/marina/aci-dubrovnik/' target='_blank'>ACI Marina Dubrovnik</a>", season: "summer", duration: "6 days"},
+        {name: "Kotor", lat: 42.4611, lon: 18.7804, info: "UNESCO Kotor | <a href='https://www.portofkotor.com/en/marina-kotor/' target='_blank'>Port of Kotor Marina</a>", season: "fall", duration: "7 days"},
+        {name: "Corfu", lat: 39.6243, lon: 19.9208, info: "UNESCO Corfu | <a href='https://www.d-marin.com/en/marinas/gouvia/' target='_blank'>Gouvia Marina</a>", season: "fall", duration: "6 days"},
+        {name: "Ionian Islands", lat: 38.8333, lon: 20.1000, info: "Ionian Islands | <a href='https://www.d-marin.com/en/marinas/lefkas/' target='_blank'>Lefkas Marina</a>", season: "fall", duration: "5 days"},
+        {name: "Peloponnese", lat: 37.4036, lon: 22.9080, info: "Peloponnese | <a href='https://www.ksmarin.com/' target='_blank'>Kalamata Marina</a>", season: "winter", duration: "8 days"},
+        {name: "Nafplio", lat: 37.5651, lon: 22.8090, info: "Nafplio | <a href='https://www.nafpoli-marina.gr/' target='_blank'>Nafplio Marina</a>", season: "winter", duration: "6 days"},
+        {name: "Athens", lat: 37.9838, lon: 23.7275, info: "Athens | <a href='https://www.d-marin.com/en/marinas/zea/' target='_blank'>Zea Marina</a>", season: "winter", duration: "5 days"},
+        {name: "Santorini", lat: 36.3932, lon: 25.4615, info: "UNESCO Santorini | <a href='https://www.santorini-view.com/ports-airport/vlychada-marina/' target='_blank'>Vlychada Marina</a>", season: "spring", duration: "6 days"},
+        {name: "Mykonos", lat: 37.4467, lon: 25.3289, info: "UNESCO Mykonos | <a href='https://www.mykonosport.com/' target='_blank'>Mykonos New Port Marina</a>", season: "spring", duration: "7 days"},
+        {name: "Chios", lat: 38.3700, lon: 26.1350, info: "Chios | <a href='https://www.chiosmarina.gr/' target='_blank'>Chios Marina</a>", season: "spring", duration: "5 days"},
+        {name: "Lesbos", lat: 39.1108, lon: 26.5501, info: "UNESCO Lesbos | <a href='https://www.mytilenamarina.gr/' target='_blank'>Mytilene Marina</a>", season: "spring", duration: "5 days"},
+        {name: "Kusadasi", lat: 37.8693, lon: 27.2566, info: "UNESCO Ephesus | <a href='https://www.kusadasimarina.com/' target='_blank'>Kusadasi Marina</a>", season: "spring", duration: "7 days"},
+        {name: "Marmaris", lat: 36.8765, lon: 28.2857, info: "Marmaris | <a href='https://www.marinamarmaris.com/' target='_blank'>Marmaris Marina</a>", season: "spring", duration: "5 days"},
+        {name: "Fethiye", lat: 36.6340, lon: 29.1071, info: "Fethiye | <a href='https://www.fethiyemarina.com/' target='_blank'>Fethiye Marina</a>", season: "spring", duration: "5 days"},
+        {name: "Gocek", lat: 36.7486, lon: 28.9190, info: "Gocek | <a href='https://www.gocekmarina.com/' target='_blank'>Gocek Marina</a>", season: "spring", duration: "6 days"},
+        {name: "Rhodes", lat: 36.4349, lon: 28.2176, info: "UNESCO Rhodes | <a href='https://www.rhodesport.com/' target='_blank'>Rhodes Marina</a>", season: "spring", duration: "6 days"},
+        {name: "Kastellorizo", lat: 36.1422, lon: 29.5844, info: "Kastellorizo | <a href='https://www.kastellorizomarina.gr/' target='_blank'>Kastellorizo Marina</a>", season: "spring", duration: "5 days"},
+        {name: "Cyprus (Paphos)", lat: 34.7757, lon: 32.4244, info: "UNESCO Paphos | <a href='https://www.paphosmarina.com/' target='_blank'>Paphos Marina</a>", season: "spring", duration: "8 days"},
+        {name: "Limassol", lat: 34.7071, lon: 33.0248, info: "Limassol | <a href='https://www.limassolmarina.com/' target='_blank'>Limassol Marina</a>", season: "spring", duration: "7 days"},
+        {name: "Larnaca", lat: 34.9208, lon: 33.6324, info: "Larnaca | <a href='https://www.larnacamarina.com/' target='_blank'>Larnaca Marina</a>", season: "spring", duration: "6 days"}
     ];
 
     // Function to assign color based on the season
@@ -68,14 +77,22 @@
         }
     }
 
+    // Function to create custom icons with numbers
+    function createIcon(number) {
+        return new L.DivIcon({
+            className: 'custom-icon',
+            html: number,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+        });
+    }
+
     // Add markers for each stop, with numbered and color-coded markers
     stops.forEach(function(stop, index) {
-        L.circleMarker([stop.lat, stop.lon], {
-            color: getMarkerColor(stop.season),  // Set marker color based on the season
-            radius: 8
-        })
-        .addTo(map)
-        .bindPopup("<b>Stop " + (index + 1) + ": " + stop.name + "</b><br>" + stop.info);
+        var markerColor = getMarkerColor(stop.season); // Get color for season
+        L.marker([stop.lat, stop.lon], { icon: createIcon(index + 1) }) // Add the number to the marker
+            .addTo(map)
+            .bindPopup("<b>Stop " + (index + 1) + ": " + stop.name + "</b><br>" + stop.info + "<br><b>Duration of Stay:</b> " + stop.duration);
     });
 </script>
 
