@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h1>Simple Mediterranean Sailing Itinerary Map</h1>
+<h1>Simple Mediterranean Sailing Itinerary Map with Directional Arrows</h1>
 
 <!-- Map container -->
 <div id="map"></div>
@@ -67,7 +67,7 @@
             .bindPopup("<b>" + stop.name + "</b><br>" + stop.info);
     });
 
-    // Define the maritime route with waypoints to avoid land
+    // Define the maritime route with additional waypoints to avoid land
     var route = [
         [45.4408, 12.3155],  // Venice
         [44.9605, 13.4157],  // Near Rovinj (over water)
@@ -77,7 +77,9 @@
         [39.6243, 19.9208],  // Corfu
         [38.8333, 20.1000],  // Ionian Islands
         [37.4036, 22.9080],  // Peloponnese
-        [37.5651, 22.8090]   // Nafplio
+        [37.5651, 22.8090],  // Nafplio
+        [36.3932, 25.4615],  // Santorini (Intermediate point added to avoid land)
+        [37.4467, 25.3289]   // Mykonos
     ];
 
     // Create the polyline and add arrowheads to the route
