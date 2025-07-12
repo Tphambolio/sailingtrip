@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Sailing Itinerary Map</title>
+    
+    <!-- Leaflet CSS for styling the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<h1>Simple Mediterranean Sailing Itinerary Map</h1>
+
+<!-- Map container -->
+<div id="map"></div>
+
+<!-- Leaflet JavaScript for interactive map functionality -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize the map centered on a location (example: Athens)
+    var map = L.map('map').setView([37.9838, 23.7275], 6);  // Center on Athens
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Array of stops with coordinates, names, and links
+    var stops = [
+        {name: "Venice", lat: 45.4408, lon: 12.3155, info: "UNESCO Venice | <a href='https://www.marinasantelena.com/' target='_blank'>Marina Sant'Elena</a>"},
+        {name: "Rovinj", lat: 45.0812, lon: 13.6385, info: "UNESCO Rovinj | <a href='https://aci-marinas.com/marina/aci-rovinj/' target='_blank'>ACI Marina Rovinj</a>"},
+        {name: "Split", lat: 43.5081, lon: 16.4402, info: "UNESCO Split | <a href='https://aci-marinas.com/marina/aci-split/' target='_blank'>ACI Marina Split</a>"},
+        {name: "Dubrovnik", lat: 42.6507, lon: 18.0944, info: "UNESCO Dubrovnik | <a href='https://aci-marinas.com/marina/aci-dubrovnik/' target='_blank'>ACI Marina Dubrovnik</a>"},
+        {name: "Kotor", lat: 42.4611, lon: 18.7804, info: "UNESCO Kotor | <a href='https://www.portofkotor.com/en/marina-kotor/' target='_blank'>Port of Kotor Marina</a>"},
+        {name: "Corfu", lat: 39.6243, lon: 19.9208, info: "UNESCO Corfu | <a href='https://www.d-marin.com/en/marinas/gouvia/' target='_blank'>Gouvia Marina</a>"},
+        {name: "Ionian Islands", lat: 38.8333, lon: 20.1000, info: "Ionian Islands | <a href='https://www.d-marin.com/en/marinas/lefkas/' target='_blank'>Lefkas Marina</a>"},
+        {name: "Peloponnese", lat: 37.4036, lon: 22.9080, info: "Peloponnese | <a href='https://www.ksmarin.com/' target='_blank'>Kalamata Marina</a>"},
+        {name: "Nafplio", lat: 37.5651, lon: 22.8090, info: "Nafplio | <a href='https://www.nafpoli-marina.gr/' target='_blank'>Nafplio Marina</a>"},
+        {name: "Athens", lat: 37.9838, lon: 23.7275, info: "Athens | <a href='https://www.d-marin.com/en/marinas/zea/' target='_blank'>Zea Marina</a>"},
+        {name: "Santorini", lat: 36.3932, lon: 25.4615, info: "UNESCO Santorini | <a href='https://www.santorini-view.com/ports-airport/vlychada-marina/' target='_blank'>Vlychada Marina</a>"},
+        {name: "Mykonos", lat: 37.4467, lon: 25.3289, info: "UNESCO Mykonos | <a href='https://www.mykonosport.com/' target='_blank'>Mykonos New Port Marina</a>"},
+        {name: "Chios", lat: 38.3700, lon: 26.1350, info: "Chios | <a href='https://www.chiosmarina.gr/' target='_blank'>Chios Marina</a>"},
+        {name: "Lesbos", lat: 39.1108, lon: 26.5501, info: "UNESCO Lesbos | <a href='https://www.mytilenamarina.gr/' target='_blank'>Mytilene Marina</a>"},
+        {name: "Kusadasi", lat: 37.8693, lon: 27.2566, info: "UNESCO Ephesus | <a href='https://www.kusadasimarina.com/' target='_blank'>Kusadasi Marina</a>"},
+        {name: "Marmaris", lat: 36.8765, lon: 28.2857, info: "Marmaris | <a href='https://www.marinamarmaris.com/' target='_blank'>Marmaris Marina</a>"},
+        {name: "Fethiye", lat: 36.6340, lon: 29.1071, info: "Fethiye | <a href='https://www.fethiyemarina.com/' target='_blank'>Fethiye Marina</a>"},
+        {name: "Gocek", lat: 36.7486, lon: 28.9190, info: "Gocek | <a href='https://www.gocekmarina.com/' target='_blank'>Gocek Marina</a>"},
+        {name: "Rhodes", lat: 36.4349, lon: 28.2176, info: "UNESCO Rhodes | <a href='https://www.rhodesport.com/' target='_blank'>Rhodes Marina</a>"},
+        {name: "Kastellorizo", lat: 36.1422, lon: 29.5844, info: "Kastellorizo | <a href='https://www.kastellorizomarina.gr/' target='_blank'>Kastellorizo Marina</a>"},
+        {name: "Cyprus (Paphos)", lat: 34.7757, lon: 32.4244, info: "UNESCO Paphos | <a href='https://www.paphosmarina.com/' target='_blank'>Paphos Marina</a>"},
+        {name: "Limassol", lat: 34.7071, lon: 33.0248, info: "Limassol | <a href='https://www.limassolmarina.com/' target='_blank'>Limassol Marina</a>"},
+        {name: "Larnaca", lat: 34.9208, lon: 33.6324, info: "Larnaca | <a href='https://www.larnacamarina.com/' target='_blank'>Larnaca Marina</a>"}
+    ];
+
+    // Add markers for each stop
+    stops.forEach(function(stop) {
+        L.marker([stop.lat, stop.lon])
+            .addTo(map)
+            .bindPopup("<b>" + stop.name + "</b><br>" + stop.info);
+    });
+</script>
+
+</body>
+</html>
